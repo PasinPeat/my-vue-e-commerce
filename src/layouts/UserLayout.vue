@@ -1,11 +1,37 @@
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router'
+import { onMounted, ref } from 'vue'
+
+const isLoggedIn = ref(false)
+
+const login = () => {
+  isLoggedIn.value = true
+  localStorage.setItem('isLoggedIn', true)
+}
+
+const logout = () => {
+  isLoggedIn.value = false
+  localStorage.removeItem('isLoggedIn')
+}
+
+onMounted(() => {
+  if (localStorage.getItem('isLoggedIn')) {
+    isLoggedIn.value = true
+  } else {
+    isLoggedIn.value = false
+  }
+});
+
+</script>
 
 <template>
   <div class="container mx-auto">
     <nav>
       <div class="navbar bg-base-100">
         <div class="flex-1">
-          <a class="btn btn-ghost text-xl">Meow shop :P</a>
+          <RouterLink class="btn btn-ghost text-xl" :to="{ name: 'home' }">
+            Meow shop :P
+          </RouterLink>
         </div>
         <div class="flex-none gap-2">
           <div class="form-control">
@@ -40,13 +66,16 @@
                 <span class="text-lg font-bold">8 Items</span>
                 <span class="text-info">Subtotal: $999</span>
                 <div class="card-actions">
-                  <button class="btn btn-primary btn-block">View cart</button>
+                  <RouterLink class="btn btn-primary btn-block" :to="{ name: 'cart' }">
+                    View Cart
+                  </RouterLink>
                 </div>
               </div>
             </div>
           </section>
+          <button v-if="!isLoggedIn" @click="login()" class="btn btn-ghost">Login</button>
           <!-- profile section -->
-          <section class="dropdown dropdown-end">
+          <section v-else class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full">
                 <img
@@ -60,12 +89,14 @@
               class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a class="justify-between">
-                  Profile
-                  <span class="badge">New</span>
-                </a>
+                <RouterLink :to="{ name: 'profile' }">
+                  <span class="justify-between">
+                    Profile
+                    <span class="badge">New</span>
+                  </span>
+                </RouterLink>
               </li>
-              <li><a>Logout</a></li>
+              <li><a @click="logout()">Logout</a></li>
             </ul>
           </section>
         </div>
