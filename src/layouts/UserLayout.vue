@@ -1,8 +1,14 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import { useCartStore } from '@/stores/user/cart'
+
+const router = useRouter()
+const cartStore = useCartStore()
 
 const isLoggedIn = ref(false)
+const searchText = ref('')
+
 
 const login = () => {
   isLoggedIn.value = true
@@ -14,14 +20,24 @@ const logout = () => {
   localStorage.removeItem('isLoggedIn')
 }
 
+const handleSearch = (event) => {
+  if (event.key === 'Enter') {
+    router.push({
+      name: 'search',
+      query: {
+        q: searchText.value
+      }
+    })
+  }
+}
+
 onMounted(() => {
   if (localStorage.getItem('isLoggedIn')) {
     isLoggedIn.value = true
   } else {
     isLoggedIn.value = false
   }
-});
-
+})
 </script>
 
 <template>
@@ -35,8 +51,15 @@ onMounted(() => {
         </div>
         <div class="flex-none gap-2">
           <div class="form-control">
-            <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+            <input
+              type="text"
+              placeholder="Search"
+              class="input input-bordered w-24 md:w-auto"
+              v-model="searchText"
+              @keyup="handleSearch"
+            />
           </div>
+
           <!-- cart section -->
           <section class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
@@ -55,7 +78,7 @@ onMounted(() => {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span class="badge badge-sm indicator-item">8</span>
+                <span class="badge badge-sm indicator-item">{{ cartStore.summaryQuantity }} </span>
               </div>
             </div>
             <div
@@ -63,8 +86,8 @@ onMounted(() => {
               class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
             >
               <div class="card-body">
-                <span class="text-lg font-bold">8 Items</span>
-                <span class="text-info">Subtotal: $999</span>
+                <span class="text-lg font-bold">{{ cartStore.summaryQuantity }} Items</span>
+                <span class="text-info">total: {{ cartStore.summaryPrice }} B.</span>
                 <div class="card-actions">
                   <RouterLink class="btn btn-primary btn-block" :to="{ name: 'cart' }">
                     View Cart
