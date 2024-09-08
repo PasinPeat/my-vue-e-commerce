@@ -2,26 +2,8 @@ import { defineStore } from 'pinia'
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    items: [
-      {
-        name: 'cat toy 1',
-        imageUrl:
-          'https://headsupfortails.com/cdn/shop/articles/Cat_playing_with_toy.jpg?v=1644820121',
-        quantity: 2,
-        about: 'cat toy 1 detail',
-        status: 'test status',
-        price: 100
-      },
-      {
-        name: 'cat toy 2',
-        imageUrl:
-          'https://headsupfortails.com/cdn/shop/articles/Cat_playing_with_toy.jpg?v=1644820121',
-        quantity: 1,
-        about: 'cat toy 1 detail',
-        status: 'test status',
-        price: 100
-      }
-    ]
+    items: [],
+    checkout:{}
   }),
   getters: {
     summaryPrice(state) {
@@ -29,18 +11,64 @@ export const useCartStore = defineStore('cart', {
     },
     summaryQuantity(state) {
       return state.items.reduce((acc, item) => acc + item.quantity, 0)
+    },
+    cartItemsCount(state) {
+      return state.items.length
+    },
+    summaryProducts(state) {
+      return state.items.map((item) => ({
+        name: item.name,
+        price: item.price,
+        imageUrl: item.imageUrl
+      }))
     }
   },
 
   actions: {
+    loadCart() {
+      const prevCart = localStorage.getItem('cart-data')
+      if (prevCart) {
+        this.items = JSON.parse(prevCart)
+      }
+    },
     addToCart(productData) {
-      this.items.push(productData)
+      const itemIndex = this.items.findIndex((item) => item.name === productData.name)
+      if (itemIndex !== -1) {
+        this.items[itemIndex].quantity += 1
+        console.log('found product at index', itemIndex)
+      } else {
+        console.log('Not found product')
+        productData.quantity = 1
+        this.items.push(productData)
+      }
+
+      localStorage.setItem('cart-data', JSON.stringify(this.items))
     },
     updateQuantity(index, quantity) {
       this.items[index].quantity = quantity
+      localStorage.setItem('cart-data', JSON.stringify(this.items))
     },
     removeItemInCart(index) {
       this, this.items.splice(index, 1)
+      localStorage.setItem('cart-data', JSON.stringify(this.items))
+    },
+    placeOrder(userData) {
+      const orderData = {
+        ...userData,
+        products: this.items,
+        totalprice: this.summaryPrice,
+        paymentMethod: 'Credit-card',
+        createdDate: new Date().toLocaleString(),
+        orderNumber: `AA ${Math.floor(Math.random() * 90000 + 10000)}`
+      }
+
+      localStorage.setItem('order-data', JSON.stringify(orderData))
+    },
+    loadCheckout(){
+      const orderData = localStorage.getItem('order-data')
+      if (orderData) {
+        this.checkout = JSON.parse(orderData)
+      }
     }
   }
 })

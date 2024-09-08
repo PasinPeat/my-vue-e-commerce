@@ -19,10 +19,7 @@ const changeQuantity = (event, index) => {
         <div v-if="!cartStore.items.length">No product</div>
         <div v-else v-for="(item, index) in cartStore.items" :key="index" class="flex">
           <div class="flex-1">
-            <img
-              class="w-full p-4"
-              src="https://fastly.picsum.photos/id/296/200/200.jpg?hmac=y-H33xJ0Tpm9muoZO3ZMb5kXpNPG1mptQ9HBmpjCc8A"
-            />
+            <img class="w-full p-4" :src="item.imageUrl" />
           </div>
           <div class="flex-1 p-4">
             <div class="flex flex-col justify-between h-full">
@@ -36,7 +33,11 @@ const changeQuantity = (event, index) => {
                     <div>{{ item.price }} B.</div>
                   </div>
 
-                  <select class="select w-1/2" @change="changeQuantity($event, index)">
+                  <select
+                    v-model="item.quantity"
+                    class="select w-1/2"
+                    @change="changeQuantity($event, index)"
+                  >
                     <option v-for="(quantity, index) in [1, 2, 3, 4, 5]" :key="index">
                       {{ quantity }}
                     </option>
@@ -58,13 +59,32 @@ const changeQuantity = (event, index) => {
           <div><h2 class="text-3xl font-bold">Order Summary</h2></div>
           <div class="px-6">
             <div class="flex justify-between py-2">
-              <b>ราคาสินค้าทั้งหมด</b> <span>{{ cartStore.summaryPrice }}</span>
+              <b>จำนวนสินค้าทั้งหมด</b>
+              <div class="flex w-32 justify-between">
+                <span>{{ cartStore.summaryQuantity }}</span>
+                <span>ชิ้น</span>
+              </div>
             </div>
-            <div class="flex justify-between py-2"><b>ค่าส่ง</b> <span> 0</span></div>
-            <div class="flex justify-between py-2"><b>ราคาทั้งสิ้น</b> <span> 100</span></div>
+            <div class="flex justify-between py-2">
+              <b>ราคาสินค้าทั้งหมด</b>
+              <div class="flex w-32 justify-between">
+                <span>{{ cartStore.summaryPrice }}</span>
+                <span>บาท</span>
+              </div>
+            </div>
+            <div class="flex justify-between py-2">
+              <b>ค่าส่ง</b>
+              <div class="flex w-32 justify-between"><span> 0</span> <span>บาท</span></div>
+            </div>
+            <div class="flex justify-between py-2">
+              <b>ราคาทั้งสิ้น</b>
+              <div class="flex w-32 justify-between"><span> 100</span> <span>บาท</span></div>
+            </div>
           </div>
           <div>
-            <button class="btn btn-neutral w-full">ชำระเงิน</button>
+            <RouterLink :to="{ name: 'checkout' }">
+              <button class="btn btn-neutral w-full">ชำระเงิน</button>
+            </RouterLink>
           </div>
         </div>
       </section>

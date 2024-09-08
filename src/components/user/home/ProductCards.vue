@@ -3,7 +3,8 @@
 import { defineProps } from 'vue'
 
 defineProps({
-  products: Array
+  products: Array,
+  addToCart: Function
 })
 </script>
 
@@ -21,7 +22,7 @@ defineProps({
         <div class="card-actions justify-end">
           <div class="flex justify-between items-center w-full">
             <h2 class="card-title">{{ product.price }} B.</h2>
-            <button class="btn btn-primary">Buy Now</button>
+            <button @click="addToCart(product)" class="btn btn-primary">Buy Now</button>
           </div>
         </div>
       </div>

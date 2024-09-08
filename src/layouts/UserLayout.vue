@@ -2,13 +2,15 @@
 import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useCartStore } from '@/stores/user/cart'
+import { useUserStore } from '@/stores/user/user';
 
 const router = useRouter()
+
+const userStore = useUserStore()
 const cartStore = useCartStore()
 
 const isLoggedIn = ref(false)
 const searchText = ref('')
-
 
 const login = () => {
   isLoggedIn.value = true
@@ -18,6 +20,9 @@ const login = () => {
 const logout = () => {
   isLoggedIn.value = false
   localStorage.removeItem('isLoggedIn')
+  localStorage.removeItem('cart-data')
+  localStorage.removeItem('order-data')
+  window.location.reload()
 }
 
 const handleSearch = (event) => {
@@ -78,7 +83,7 @@ onMounted(() => {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span class="badge badge-sm indicator-item">{{ cartStore.summaryQuantity }} </span>
+                <span class="badge badge-sm indicator-item">{{ cartStore.cartItemsCount }} </span>
               </div>
             </div>
             <div
@@ -86,7 +91,7 @@ onMounted(() => {
               class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
             >
               <div class="card-body">
-                <span class="text-lg font-bold">{{ cartStore.summaryQuantity }} Items</span>
+                <span class="text-lg font-bold">{{ cartStore.cartItemsCount }} Items</span>
                 <span class="text-info">total: {{ cartStore.summaryPrice }} B.</span>
                 <div class="card-actions">
                   <RouterLink class="btn btn-primary btn-block" :to="{ name: 'cart' }">
@@ -103,7 +108,7 @@ onMounted(() => {
               <div class="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://images.pexels.com/photos/225406/pexels-photo-225406.jpeg"
+                  :src="userStore.userData.imageUrl"
                 />
               </div>
             </div>
