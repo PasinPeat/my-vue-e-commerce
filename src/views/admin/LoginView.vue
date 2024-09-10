@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
@@ -10,33 +10,27 @@ import { RouterLink } from 'vue-router';
         <div class="mb-4">
           <div class="form-control w-full mt-4">
             <label class="label"
-              ><span class="label-text text-base-content undefined"
-                >Email Id</span
-              ></label
+              ><span class="label-text text-base-content undefined">Email Id</span></label
             ><input
               type="emailId"
-              placeholder=""
+              placeholder="Your email"
               class="input input-bordered w-full"
               value=""
             />
           </div>
           <div class="form-control w-full mt-4">
             <label class="label"
-              ><span class="label-text text-base-content undefined"
-                >Password</span
-              ></label
+              ><span class="label-text text-base-content undefined">Password</span></label
             ><input
               type="password"
-              placeholder=""
+              placeholder="Your password"
               class="input input-bordered w-full"
               value=""
             />
           </div>
         </div>
         <p class="text-center text-error mt-8"></p>
-        <RouterLink to="/admin/dashboard" class="btn mt-2 w-full btn-primary"
-          >Login</RouterLink
-        >
+        <RouterLink :to="{name:'admin-dashboard'}" class="btn mt-2 w-full btn-primary">Login</RouterLink>
       </div>
     </div>
   </div>

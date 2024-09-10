@@ -8,28 +8,29 @@ const route = useRoute()
 const pageData = [
   {
     name: 'Dashboard',
-    route: '/admin/dashboard'
+    route: 'admin-dashboard'
   },
   {
     name: 'Product',
-    route: '/admin/products'
+    route: 'admin-products-list'
   },
   {
     name: 'Order',
-    route: '/admin/orders'
+    route: 'admin-orders-list'
   },
   {
     name: 'User',
-    route: '/admin/users'
+    route: 'admin-users-list'
   },
   {
     name: 'Logout',
-    route: '/admin/login'
+    route: 'admin-login'
   }
 ]
 
 const currentPath = ref('')
-currentPath.value = route.path
+
+currentPath.value = route.name
 </script>
 
 <template>
@@ -40,13 +41,17 @@ currentPath.value = route.path
     </div>
     <div class="drawer-side">
       <label for="my-drawer-2" class="drawer-overlay"></label>
-      <ul class="menu p-4 w-60 h-full bg-base-200 text-base-content">
+      <ul class="menu p-0 w-[180px] h-full bg-base-200 text-base-content">
         <!-- Sidebar content here -->
-        <li class="mb-2 font-semibold text-2xl">
-          <div>Admin {{ pageName }}</div>
+        <li class="mb-2 font-semibold text-xl">
+          <div>Web Admin</div>
         </li>
-        <li v-for="(page, index) in pageData" :key="index">
-          <RouterLink :to="page.route" :class="currentPath === page.route ? 'active' : ''">
+        <li class="w-full" v-for="(page, index) in pageData" :key="index">
+          <RouterLink
+            :to="{ name: page.route }"
+            
+            :class="currentPath === page.route ? 'btn btn-active side-btn' : 'btn side-btn'"
+          >
             {{ page.name }}
           </RouterLink>
         </li>

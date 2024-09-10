@@ -62,39 +62,42 @@ const router = createRouter({
       name: 'admin-dashboard',
       component: AdminDashboard
     },
+    //<-------------- order action routes ------------------->
     {
-      path: '/admin/order',
-      name: 'admin-order',
+      path: '/admin/orders',
+      name: 'admin-orders-list',
       component: AdminOrderList
     },
     {
-      path: '/admin/order/:id',
+      path: '/admin/orders/detail/:id',
       name: 'admin-order-detail',
       component: AdminOrderDetail
     },
+    //<-------------- product action routes ------------------->
     {
       path: '/admin/products',
-      name: 'admin-products',
+      name: 'admin-products-list',
       component: AdminProductList
     },
     {
       path: '/admin/products/create',
-      name: 'admin-products-create',
+      name: 'admin-product-create',
       component: AdminProductUpdate
     },
     {
       path: '/admin/products/update/:id',
-      name: 'admin-products-update',
+      name: 'admin-product-update',
       component: AdminProductUpdate
     },
+    //<-------------- user action routes ------------------->
     {
       path: '/admin/users/update/:id',
-      name: 'admin-users-update',
+      name: 'admin-user-update',
       component: AdminUserUpdate
     },
     {
       path: '/admin/users',
-      name: 'admin-users',
+      name: 'admin-users-list',
       component: AdminUserList
     }
   ]
