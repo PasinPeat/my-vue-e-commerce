@@ -4,7 +4,7 @@ import { RouterView } from 'vue-router'
 import { useCartStore } from './stores/user/cart'
 import { useProductStore } from './stores/user/product'
 import { useEventStore } from './stores/event'
-import CloseIcon from './components/icons/Close-icon.vue'
+// import CloseIcon from './components/icons/Close-icon.vue'
 
 const eventStore = useEventStore()
 const productStore = useProductStore()
