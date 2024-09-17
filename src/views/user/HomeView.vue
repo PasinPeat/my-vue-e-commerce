@@ -21,10 +21,10 @@ const addToCart = (product) => {
 
 <template>
   <UserLayout>
-    <div>
+    <div >
       <Hero />
       <div
-        class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mx-auto justify-items-center"
+        class="p-4 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mx-auto justify-items-center"
       >
         <ProductCards :addToCart="addToCart" :products="productStore.list"></ProductCards>
       </div>

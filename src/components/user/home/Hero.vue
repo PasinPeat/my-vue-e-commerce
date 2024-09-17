@@ -1,6 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 </script>
 
 <template>
@@ -16,7 +18,12 @@
           meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow
           meow meow
         </p>
-        <button class="btn btn-primary">See more</button>
+        <button
+          @click="router.push({ name: 'search', query: { q: 'cat' } })"
+          class="btn btn-primary"
+        >
+          See more
+        </button>
       </div>
     </div>
   </div>
