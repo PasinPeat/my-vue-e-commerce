@@ -2,7 +2,7 @@
 import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useCartStore } from '@/stores/user/cart'
-import { useUserStore } from '@/stores/user/user';
+import { useUserStore } from '@/stores/user/user'
 
 const router = useRouter()
 
@@ -55,6 +55,16 @@ onMounted(() => {
           </RouterLink>
         </div>
         <div class="flex-none gap-2">
+          <button
+            class="btn btn-link"
+            @click="
+              router.push({
+                name: 'admin-dashboard'
+              })
+            "
+          >
+            navigate to Admin
+          </button>
           <div class="form-control">
             <input
               type="text"
@@ -106,10 +116,7 @@ onMounted(() => {
           <section v-else class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  :src="userStore.userData.imageUrl"
-                />
+                <img alt="Tailwind CSS Navbar component" :src="userStore.userData.imageUrl" />
               </div>
             </div>
             <ul

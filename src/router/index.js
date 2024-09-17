@@ -58,7 +58,7 @@ const router = createRouter({
       component: AdminLogin
     },
     {
-      path: '/admin/dashbaord',
+      path: '/admin/dashboard',
       name: 'admin-dashboard',
       component: AdminDashboard
     },

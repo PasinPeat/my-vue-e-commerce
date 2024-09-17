@@ -1,10 +1,10 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
-
+const router = useRouter()
 const pageData = [
   {
     name: 'Dashboard',
@@ -49,11 +49,22 @@ currentPath.value = route.name
         <li class="w-full" v-for="(page, index) in pageData" :key="index">
           <RouterLink
             :to="{ name: page.route }"
-            
             :class="currentPath === page.route ? 'btn btn-active side-btn' : 'btn side-btn'"
           >
             {{ page.name }}
           </RouterLink>
+        </li>
+        <li>
+          <button
+            class="btn btn-link"
+            @click="
+              router.push({
+                path: '/'
+              })
+            "
+          >
+            navigate to User
+          </button>
         </li>
       </ul>
     </div>
