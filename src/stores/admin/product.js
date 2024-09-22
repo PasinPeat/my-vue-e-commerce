@@ -11,7 +11,6 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 10,
         status: 'open',
         about: 'cat toy 1 detail',
-
         price: 100,
         updatedAt: '9/9/2024, 11:32:34 AM'
       },
@@ -23,7 +22,6 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 10,
         status: 'open',
         about: 'cat toy 2 detail',
-
         price: 120,
         updatedAt: '9/9/2024, 11:32:34 AM'
       },
@@ -35,7 +33,6 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 10,
         status: 'open',
         about: 'cat toy 3 detail',
-
         price: 130,
         updatedAt: '9/9/2024, 11:32:34 AM'
       },
@@ -47,7 +44,6 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 10,
         status: 'open',
         about: 'cat toy 4 detail',
-
         price: 130,
         updatedAt: '9/9/2024, 11:32:34 AM'
       },
@@ -59,7 +55,6 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 10,
         status: 'open',
         about: 'cat toy 5 detail',
-
         price: 130,
         updatedAt: '9/9/2024, 11:32:34 AM'
       },
@@ -71,7 +66,6 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 10,
         status: 'open',
         about: 'cat toy 6 detail',
-
         price: 130,
         updatedAt: '9/9/2024, 11:32:34 AM'
       },
@@ -82,7 +76,6 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 10,
         status: 'open',
         about: 'cat toy 7 detail',
-
         price: 130,
         updatedAt: '9/9/2024, 11:32:34 AM'
       }
