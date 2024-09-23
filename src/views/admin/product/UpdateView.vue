@@ -1,51 +1,50 @@
 <script setup>
-import { onMounted, ref, reactive, computed } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useProductStore } from '@/stores/admin/product'
-// import { useEventStore } from '@/stores/event'
+import { useEventStore } from '@/stores/event'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 import AdminLayout from '@/layouts/AdminLayout.vue'
 
 const productStore = useProductStore()
-// const eventStore = useEventStore()
+const eventStore = useEventStore()
 
 const route = useRoute()
 const router = useRouter()
 
-const productId = ref(-1)
-let selectedProduct = reactive({
-  name: '',
-  imageUrl: '',
-  quantity: 0,
-  about: '',
-  price: 0,
-  status: 'open'
-})
+const productIndex = ref(-1)
 
 const mode = computed(() => {
-  return productId.value !== -1 ? 'Edit' : 'Add'
+  return productIndex.value !== -1 ? 'Edit' : 'Add'
 })
 
 onMounted(() => {
   if (route.params.id) {
-    productId.value = parseInt(route.params.id)
-    selectedProduct = productStore.getProduct(productId.value)
+    productIndex.value = parseInt(route.params.id)
+    const product = productStore.list[route.params.id]
+    productStore.getProduct(product._id)
+    // console.log(product)
   }
-  console.log(productStore.list)
+  // productStore.getProduct(productIndex.value)
+  // console.log(productStore.selectedProduct)
+
+  // selectedProduct = productStore.getProduct(productIndex.value)
+
+  // console.log(productStore.selectedProduct)
   console.log(mode.value)
-  // console.log(productStore.getProduct(productId.value))
+  // console.log(productStore.getProduct(productIndex.value))
 })
 
 const updateProduct = () => {
   if (mode.value === 'Edit') {
     // Edit mode
-    productStore.updateProduct(productId.value, selectedProduct)
-    // eventStore.popupMessage('success', 'Update Product successful!')
+    productStore.updateProduct(productStore.selectedProduct['_id'])
+    eventStore.popUpMessage('success', 'Update Product successful!')
     router.push({ name: 'admin-products-list' })
   } else {
     // Create mode
-    productStore.addProduct(selectedProduct)
-    // eventStore.popupMessage('success', 'Create Product successful!')
+    productStore.addProduct()
+    eventStore.popUpMessage('success', 'Create Product successful!')
     router.push({ name: 'admin-products-list' })
   }
 }
@@ -55,7 +54,10 @@ const updateProduct = () => {
   <AdminLayout>
     <div class="flex pt-8 px-6">
       <div class="card w-full p-6 bg-base-100 shadow-xl mt-2">
-        <div class="text-xl font-semibold">{{ mode }} Product</div>
+        <div v-if="mode === 'Add'" class="text-xl font-semibold">{{ mode }} New Product</div>
+        <div v-else class="text-xl font-semibold">
+          {{ mode }} Product Id : {{ productStore.selectedProduct['_id'] }}
+        </div>
         <div class="divider mt-2"></div>
         <div class="h-full w-full pb-6 bg-base-100">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -65,7 +67,7 @@ const updateProduct = () => {
                 type="text"
                 placeholder=""
                 class="input input-bordered w-full"
-                v-model="selectedProduct.name"
+                v-model="productStore.selectedProduct.name"
               />
             </div>
             <div class="form-control w-full">
@@ -75,7 +77,7 @@ const updateProduct = () => {
                 type="text"
                 placeholder=""
                 class="input input-bordered w-full"
-                v-model="selectedProduct.imageUrl"
+                v-model="productStore.selectedProduct.imageUrl"
               />
             </div>
             <div class="form-control w-full">
@@ -86,7 +88,7 @@ const updateProduct = () => {
                 type="number"
                 placeholder=""
                 class="input input-bordered w-full"
-                v-model="selectedProduct.price"
+                v-model="productStore.selectedProduct.price"
               />
             </div>
             <div class="form-control w-full">
@@ -97,7 +99,7 @@ const updateProduct = () => {
                 type="number"
                 placeholder=""
                 class="input input-bordered w-full"
-                v-model="selectedProduct.quantity"
+                v-model="productStore.selectedProduct.quantity"
               />
             </div>
             <div class="form-control w-full">
@@ -106,7 +108,7 @@ const updateProduct = () => {
               </label>
               <textarea
                 class="textarea textarea-bordered w-full"
-                v-model="selectedProduct.about"
+                v-model="productStore.selectedProduct.about"
                 placeholder="detail product"
               >
               </textarea>
@@ -118,7 +120,10 @@ const updateProduct = () => {
               <label class="label">
                 <span class="label-text text-base-content"> Status </span>
               </label>
-              <select class="select select-bordered w-full" v-model="selectedProduct.status">
+              <select
+                class="select select-bordered w-full"
+                v-model="productStore.selectedProduct.status"
+              >
                 <option disabled selected>Status</option>
                 <option value="open">Open</option>
                 <option value="closed">Closed</option>

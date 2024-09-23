@@ -1,6 +1,6 @@
 <script setup>
 import { useProductStore } from '@/stores/admin/product'
-// import { useEventStore } from '@/stores/event'
+import { useEventStore } from '@/stores/event'
 
 import { RouterLink } from 'vue-router'
 
@@ -11,17 +11,19 @@ import EditIcon from '@/components/icons/Edit-icon.vue'
 import { onMounted } from 'vue'
 
 const productStore = useProductStore()
-// const eventStore = useEventStore()
+const eventStore = useEventStore()
 
 onMounted(() => {
-  // productStore.loadProducts()
+  productStore.getProducts()
+  productStore.clearSelectedProduct()
 })
 
 const headerColumn = ['Name', 'Image', 'Price', 'Quantity', 'Status', 'Updated At', '']
 
-const removeProduct = (index) => {
-  productStore.removeProduct(index)
-  //   eventStore.popupMessage('success', 'DELETE Successful!')
+const removeProduct = (id) => {
+  productStore.removeProduct(id)
+  eventStore.popUpMessage('success', 'DELETE Successful!')
+  window.location.reload()
 }
 </script>
 <template>
@@ -75,7 +77,7 @@ const removeProduct = (index) => {
                       <EditIcon></EditIcon>
                     </button>
                   </RouterLink>
-                  <button @click="removeProduct(index)" class="btn btn-square btn-ghost">
+                  <button @click="removeProduct(product['_id'])" class="btn btn-square btn-ghost">
                     <TrashIcon></TrashIcon>
                   </button>
                 </td>
