@@ -16,6 +16,7 @@ const eventStore = useEventStore()
 onMounted(() => {
   productStore.getProducts()
   productStore.clearSelectedProduct()
+  productStore.clearErrorMessage()
 })
 
 const headerColumn = ['Name', 'Image', 'Price', 'Quantity', 'Status', 'Updated At', '']

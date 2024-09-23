@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+
 export const useProductStore = defineStore('admin-product', {
   state: () => ({
     list: [],
     selectedProduct: {},
-    
+    error: {
+      nameInput: ''
+    }
   }),
   actions: {
     clearSelectedProduct() {
@@ -17,6 +20,9 @@ export const useProductStore = defineStore('admin-product', {
         remainQuantity: 0,
         status: 'open'
       }
+    },
+    clearErrorMessage() {
+      this.error.nameInput = ''
     },
     async getProducts() {
       try {

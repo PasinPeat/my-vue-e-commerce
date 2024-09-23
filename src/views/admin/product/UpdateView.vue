@@ -36,16 +36,25 @@ onMounted(() => {
 })
 
 const updateProduct = () => {
-  if (mode.value === 'Edit') {
-    // Edit mode
-    productStore.updateProduct(productStore.selectedProduct['_id'])
-    eventStore.popUpMessage('success', 'Update Product successful!')
-    router.push({ name: 'admin-products-list' })
+  const text = productStore.selectedProduct.name.trim()
+  const hastext = /[a-zA-Z]/.test(text)
+  if (!text) {
+    productStore.error.nameInput = 'name must contain at least one letter'
+  } else if (!hastext) {
+    productStore.error.nameInput = 'name must contain at least one letter'
   } else {
-    // Create mode
-    productStore.addProduct()
-    eventStore.popUpMessage('success', 'Create Product successful!')
-    router.push({ name: 'admin-products-list' })
+    productStore.error.nameInput = ''
+    if (mode.value === 'Edit') {
+      // Edit mode
+      productStore.updateProduct(productStore.selectedProduct['_id'])
+      eventStore.popUpMessage('success', 'Update Product successful!')
+      router.push({ name: 'admin-products-list' })
+    } else {
+      // Create mode
+      productStore.addProduct()
+      eventStore.popUpMessage('success', 'Create Product successful!')
+      router.push({ name: 'admin-products-list' })
+    }
   }
 }
 </script>
@@ -69,6 +78,11 @@ const updateProduct = () => {
                 class="input input-bordered w-full"
                 v-model="productStore.selectedProduct.name"
               />
+              
+                <span v-if="productStore.error.nameInput" class="label-text-alt text-red-700 pl-4">{{
+                  productStore.error.nameInput
+                }}</span>
+              
             </div>
             <div class="form-control w-full">
               <label class="label">
